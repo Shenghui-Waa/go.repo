@@ -3,7 +3,7 @@ package priorityqueue
 import (
 	"container/heap"
 
-	"github.com/Shenghui-Waa/go.repo/src/comparable"
+	"github.com/Shenghui-Waa/go.repo/comparable"
 )
 
 type PriorityQueue[T comparable.Comparable[T]] []T
