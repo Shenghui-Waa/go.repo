@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - '**'
+    tags:
+      - '**'
   workflow_dispatch:
 
 permissions:
@@ -57,7 +59,7 @@ jobs:
             git commit -m "chore: adapt module path for Gitee"
           fi
 
-      - name: Push branch to Gitee
+      - name: Push ref to Gitee
         shell: bash
         env:
           GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
@@ -68,4 +70,11 @@ jobs:
           fi
 
           remote_url="https://Shenghui-Waa:${GITEE_TOKEN}@gitee.com/Shenghui-Waa/go.repo.git"
-          git push --force "${remote_url}" "HEAD:${GITHUB_REF_NAME}"
+
+          if [[ "${GITHUB_REF_TYPE}" == 'tag' ]]; then
+            git push --force "${remote_url}" \
+              "HEAD:refs/tags/${GITHUB_REF_NAME}"
+          else
+            git push --force "${remote_url}" \
+              "HEAD:refs/heads/${GITHUB_REF_NAME}"
+          fi
