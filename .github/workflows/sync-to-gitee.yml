@@ -30,10 +30,16 @@ jobs:
           source_path="github.com/${repository_owner}/go.repo"
           target_path="gitee.com/${repository_owner}/go.repo"
 
-          git grep -Il -z --fixed-strings "${source_path}" |
+          git grep -Il -z --fixed-strings "${source_path}" -- \
+            . \
+            ':(exclude,glob)README*' \
+            ':(exclude,glob)**/README*' |
             xargs -0 -r sed -i "s#${source_path}#${target_path}#g"
 
-          if git grep -n --fixed-strings "${source_path}"; then
+          if git grep -n --fixed-strings "${source_path}" -- \
+            . \
+            ':(exclude,glob)README*' \
+            ':(exclude,glob)**/README*'; then
             echo "Module path replacement is incomplete." >&2
             exit 1
           fi
