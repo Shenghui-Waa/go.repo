@@ -1,0 +1,65 @@
+name: Sync to Gitee
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sync-to-gitee-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Replace module path
+        shell: bash
+        run: |
+          repository_owner='Shenghui-Waa'
+          source_path="github.com/${repository_owner}/go.repo"
+          target_path="gitee.com/${repository_owner}/go.repo"
+
+          git grep -Il -z --fixed-strings "${source_path}" |
+            xargs -0 -r sed -i "s#${source_path}#${target_path}#g"
+
+          if git grep -n --fixed-strings "${source_path}"; then
+            echo "Module path replacement is incomplete." >&2
+            exit 1
+          fi
+
+      - name: Commit transformed snapshot
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add --all
+
+          if git diff --cached --quiet; then
+            echo "No module path changes were required."
+          else
+            git commit -m "chore: adapt module path for Gitee"
+          fi
+
+      - name: Push branch to Gitee
+        shell: bash
+        env:
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        run: |
+          if [[ -z "${GITEE_TOKEN}" ]]; then
+            echo "Repository secret GITEE_TOKEN is required." >&2
+            exit 1
+          fi
+
+          remote_url="https://Shenghui-Waa:${GITEE_TOKEN}@gitee.com/Shenghui-Waa/go.repo.git"
+          git push --force "${remote_url}" "HEAD:${GITHUB_REF_NAME}"

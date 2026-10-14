@@ -1,7 +1,15 @@
 # go.repo
 
+[**Chinese ↗**](./README_zh.md)
+
+---
+
 `go.repo` is a Go 1.25 data-structure library whose contracts are derived from
 the Java 25 Collections Framework while retaining idiomatic Go APIs.
+
+## Get
+
+`github.com/Shenghui-Waa/go.repo`*(Recommend)* and `gitee.com/Shenghui-Waa/go.repo` are both supported.
 
 ## Design
 

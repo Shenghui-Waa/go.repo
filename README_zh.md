@@ -1,7 +1,15 @@
 # go.repo
 
+[**English ↗**](./README.md)
+
+---
+
 `go.repo` 是一个基于 Go 1.25 实现的数据结构库。其接口契约派生自
 Java 25 Collections Framework，同时保留符合 Go 语言习惯的 API。
+
+## 获取
+
+`github.com/Shenghui-Waa/go.repo`*（建议）* 和 `gitee.com/Shenghui-Waa/go.repo` 都是支持的。
 
 ## 设计
 
