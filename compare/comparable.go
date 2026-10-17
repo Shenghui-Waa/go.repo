@@ -1,19 +1,16 @@
 package compare
 
-import "github.com/emirpasic/gods/utils"
-
-// Comparable is the Java-style comparison contract.
+// Comparable defines a type's natural order. CompareTo returns a negative,
+// zero or positive result for less than, equivalent to or greater than other.
+// Implementations must define a consistent, transitive ordering.
 type Comparable[T any] interface {
 	CompareTo(other T) int
 }
 
-// FromComparable adapts the Java-style CompareTo contract to GoDS'
-// interface-based comparator contract.
-//
-// The type assertions are intentionally kept at this compatibility boundary:
-// GoDS v1.18.1 defines utils.Comparator as func(interface{}, interface{}) int.
-func FromComparable[T Comparable[T]]() utils.Comparator {
-	return func(left, right interface{}) int {
-		return left.(T).CompareTo(right.(T))
+// FromComparable adapts natural ordering without runtime type assertions.
+// Nil handling, if applicable, belongs to the type's CompareTo implementation.
+func FromComparable[T Comparable[T]]() Comparator[T] {
+	return func(left, right T) int {
+		return left.CompareTo(right)
 	}
 }
