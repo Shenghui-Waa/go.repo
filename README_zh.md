@@ -16,7 +16,7 @@ Go 的组合、类型安全函数与迭代器设计，并非两者的直接兼�
 - `github.com/Shenghui-Waa/go.repo`*（建议）*
 - `gitee.com/Shenghui-Waa/go.repo`
 
-项目当前版本号为 `v1.2.3`
+项目当前版本号为 `v1.2.4`
 
 ## 模块目录
 

@@ -15,6 +15,7 @@ Container[T] 现在仅要求 Values、Size、Empty，不强制清空、格式化
 | Equality and hash / 相等与哈希 | base.Equaler / base.Hasher |
 | List membership / 列表查找 | lists.Searchable |
 | List sorting / 列表排序 | lists.Sortable |
+| Linked-list endpoints / 链表首尾操作 | lists.Endpoints |
 | Map membership / 映射查找判断 | maps.Membership |
 | Entry snapshots / 键值条目副本 | maps.EntriesProvider |
 

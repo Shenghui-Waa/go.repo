@@ -109,6 +109,32 @@ used as fixed hash-table keys while their contents are changing.
 
 ## Operations and compatibility
 
+### Explicit linked-list endpoints / 链表首尾操作
+
+Both singlylinkedlist and doublylinkedlist provide AddFirst(value), AddLast(value),
+GetFirst(), GetLast(), RemoveFirst() and RemoveLast(). The optional lists.Endpoints[T]
+interface groups these operations without expanding the basic List contract.
+Existing Prepend/Append/Get/Remove remain unchanged. Each Add accepts one element.
+
+These names follow Java 25 LinkedList/SequencedCollection, but reads and removals
+return (value, bool) rather than throwing on empty. Empty returns (zero, false);
+a stored nil or zero value returns true. This combines the useful behavior of
+Java's first/last getters and peek/poll variants without redundant aliases.
+No new linkedlist package or reverse view is introduced.
+
+Both lists read either endpoint and insert at either endpoint in O(1).
+RemoveFirst is O(1); RemoveLast is O(n) for singlylinkedlist and O(1) for
+doublylinkedlist. Successful insertions/removals invalidate traversal through
+the existing version mechanism; empty removals and reads do not.
+
+单链表和双向链表均新增 AddFirst/AddLast、GetFirst/GetLast、RemoveFirst/RemoveLast。
+命名参考 Java 25，空链表读取或删除返回 (零值, false)，不抛异常；存入的 nil/零值
+返回 true。新增可选 Endpoints 接口，不扩大基础 List，也不删除已有方法。
+两种链表首尾读取和插入均为 O(1)，头删 O(1)；单链表尾删 O(n)，双向链表尾删 O(1)。
+成功修改沿用原有迭代器失效机制，空删除和只读操作不使遍历失效。
+
+Reference: https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/LinkedList.html
+
 - Add/Append append, Prepend inserts at the beginning, and Insert accepts [0,Size].
 - Get returns (value, bool). Remove, RemoveValue, Set, Swap and Insert return bool.
   Invalid indices return false without mutation. Set(Size(), value) does not append.

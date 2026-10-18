@@ -18,7 +18,7 @@ Requires Go 1.25 or later. The canonical module and import paths declared in
 - `github.com/Shenghui-Waa/go.repo` *(recommended)*
 - `gitee.com/Shenghui-Waa/go.repo`
 
-The current project version is `v1.2.3`.
+The current project version is `v1.2.4`.
 
 ## Packages
 
